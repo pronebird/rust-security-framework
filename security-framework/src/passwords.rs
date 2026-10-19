@@ -160,7 +160,7 @@ pub fn delete_internet_password(
 fn set_password_internal(options: &mut PasswordOptions, password: &[u8]) -> Result<()> {
     #[allow(deprecated)]
     let query_without_password = options.query.len();
-    unsafe { options.push_query(kSecValueData, CFData::from_buffer(password)); }
+    unsafe { options.push_query(kSecValueData, CFData::from_arc(std::sync::Arc::new(password))); }
 
     let params = options.to_dictionary();
     let mut ret = std::ptr::null();
